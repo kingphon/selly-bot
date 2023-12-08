@@ -2,7 +2,6 @@ package main
 
 import (
 	"flag"
-
 	"github.com/eikoshelev/go-telegram-bot-example/internal/bot"
 	"github.com/eikoshelev/go-telegram-bot-example/internal/config"
 	"github.com/eikoshelev/go-telegram-bot-example/internal/database"
@@ -47,6 +46,5 @@ func main() {
 	flows.ValidateCallbacksDataSize(&logger)
 
 	bot := bot.Init(cfg, &logger, flows, svc, repo)
-
 	bot.Run()
 }

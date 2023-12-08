@@ -72,17 +72,19 @@ func (flow Flow) Handle(cd *CallbackData, updLocal *UpdateLocal) (tgbotapi.Chatt
 // a general function for assembling a bot message from the described local model
 func (msg Message) BuildBotMessage(chatID int64) tgbotapi.MessageConfig {
 	replyMessage := tgbotapi.NewMessage(chatID, msg.Text)
-	var buttonRows [][]tgbotapi.InlineKeyboardButton
-	for _, button := range msg.Buttons {
-		buttonRows = append(buttonRows, tgbotapi.NewInlineKeyboardRow(
-			tgbotapi.NewInlineKeyboardButtonData(button.Name, button.CallbackData.Encode()),
-		),
+	if len(msg.Buttons) > 0 {
+		var buttonRows [][]tgbotapi.InlineKeyboardButton
+		for _, button := range msg.Buttons {
+			buttonRows = append(buttonRows, tgbotapi.NewInlineKeyboardRow(
+				tgbotapi.NewInlineKeyboardButtonData(button.Name, button.CallbackData.Encode()),
+			),
+			)
+		}
+		markup := tgbotapi.NewInlineKeyboardMarkup(
+			buttonRows...,
 		)
+		replyMessage.ReplyMarkup = markup
 	}
-	markup := tgbotapi.NewInlineKeyboardMarkup(
-		buttonRows...,
-	)
-	replyMessage.ReplyMarkup = markup
 	replyMessage.ParseMode = tgbotapi.ModeHTML
 	return replyMessage
 }

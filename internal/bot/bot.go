@@ -1,12 +1,11 @@
 package bot
 
 import (
-	"net/http"
-
 	"github.com/eikoshelev/go-telegram-bot-example/internal/config"
 	"github.com/eikoshelev/go-telegram-bot-example/internal/model"
 	"github.com/eikoshelev/go-telegram-bot-example/internal/repository"
 	"github.com/eikoshelev/go-telegram-bot-example/internal/service"
+	"net/http"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 	"go.uber.org/zap"
@@ -86,6 +85,10 @@ func (b *Bot) SetWebhook() error {
 // configure the bot menu, don't use "start" command, but you can if you want
 func (b *Bot) InitBotCommands() tgbotapi.SetMyCommandsConfig {
 	commands := []model.CommandEntity{
+		{
+			Key:  model.StartCommand,
+			Name: "start",
+		},
 		{
 			Key:  model.ProfileCommand,
 			Name: "profile",
